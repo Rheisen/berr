@@ -1,4 +1,4 @@
-package berrmodel
+package berr
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/rheisen/berr/berrconst"
 )
 
-func NewBerr(errorType berrconst.BerrType, errorMessage string, errorDetail map[string]interface{}) *Berr {
+func newBerr(errorType berrconst.BerrType, errorMessage string, errorDetail map[string]interface{}) *Berr {
 	return &Berr{
 		errorType:    errorType,
 		errorMessage: errorMessage,
