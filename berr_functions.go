@@ -4,26 +4,26 @@ import (
 	"github.com/rheisen/berr/berrconst"
 )
 
-func Application(message string, detail map[string]interface{}) *Berr {
-	return newBerr(berrconst.ApplicationErrorType, message, detail)
+func Application(message string, details ...D) Error {
+	return newBerr(berrconst.ApplicationErrorType, message, details...)
 }
 
-func ValueInvalid(message string, detail map[string]interface{}) *Berr {
-	return newBerr(berrconst.ValueInvalidErrorType, message, detail)
+func ValueInvalid(message string, details ...D) Error {
+	return newBerr(berrconst.ValueInvalidErrorType, message, details...)
 }
 
-func ValueMissing(message string, detail map[string]interface{}) *Berr {
-	return newBerr(berrconst.ValueMissingErrorType, message, detail)
+func ValueMissing(message string, details ...D) Error {
+	return newBerr(berrconst.ValueMissingErrorType, message, details...)
 }
 
-func Authorization(message string, detail map[string]interface{}) *Berr {
-	return newBerr(berrconst.AuthorizationErrorType, message, detail)
+func Authorization(message string, details ...D) Error {
+	return newBerr(berrconst.AuthorizationErrorType, message, details...)
 }
 
-func Authentication(message string, detail map[string]interface{}) *Berr {
-	return newBerr(berrconst.AuthenticationErrorType, message, detail)
+func Authentication(message string, details ...D) Error {
+	return newBerr(berrconst.AuthenticationErrorType, message, details...)
 }
 
-func NotFound(message string, detail map[string]interface{}) *Berr {
-	return newBerr(berrconst.NotFoundErrorType, message, detail)
+func NotFound(message string, details ...D) Error {
+	return newBerr(berrconst.NotFoundErrorType, message, details...)
 }
