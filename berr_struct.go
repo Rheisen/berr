@@ -17,33 +17,33 @@ func newBerr(errorType berrconst.BerrType, errorMessage string, details ...D) *b
 
 func newBerrDetailMap(errorType berrconst.BerrType, errorMessage string, errorDetail map[string]any) *berr {
 	return &berr{
-		errorType:    errorType,
-		errorMessage: errorMessage,
-		errorDetail:  errorDetail,
+		BerrType: errorType,
+		Message:  errorMessage,
+		Detail:   errorDetail,
 	}
 }
 
 type berr struct {
-	errorType    berrconst.BerrType
-	errorMessage string
-	errorDetail  map[string]any
-	nextError    error
+	BerrType  berrconst.BerrType `json:"error_type"`
+	Message   string             `json:"message"`
+	Detail    map[string]any     `json:"detail"`
+	nextError error
 }
 
 func (e *berr) Error() string {
-	if e.errorDetail != nil && len(e.errorDetail) > 0 {
+	if e.Detail != nil && len(e.Detail) > 0 {
 		return fmt.Sprintf(
 			"%s: %s (%v)",
-			e.errorType,
-			e.errorMessage,
-			e.errorDetail,
+			e.BerrType,
+			e.Message,
+			e.Detail,
 		)
 	}
 
 	return fmt.Sprintf(
 		"%s: %s",
-		e.errorType,
-		e.errorMessage,
+		e.BerrType,
+		e.Message,
 	)
 }
 
@@ -57,17 +57,17 @@ func (e *berr) Unwrap() error {
 // }
 
 func (e *berr) ErrorType() berrconst.BerrType {
-	return e.errorType
+	return e.BerrType
 }
 
 func (e *berr) ErrorMessage() string {
-	return e.errorMessage
+	return e.Message
 }
 
 func (e *berr) ErrorDetail() map[string]any {
-	if e.errorDetail != nil && len(e.errorDetail) > 0 {
+	if e.Detail != nil && len(e.Detail) > 0 {
 		detailCopy := make(map[string]any)
-		for k, v := range e.errorDetail {
+		for k, v := range e.Detail {
 			detailCopy[k] = v
 		}
 
