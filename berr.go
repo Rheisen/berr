@@ -8,7 +8,7 @@ import (
 
 type Errors []Error
 
-func (e *Errors) Error() string {
+func (e Errors) Error() string {
 	if e == nil {
 		return ""
 	}
@@ -16,7 +16,7 @@ func (e *Errors) Error() string {
 	builder := strings.Builder{}
 	builder.WriteString("[")
 
-	for idx, val := range *e {
+	for idx, val := range e {
 		if idx > 0 {
 			builder.WriteString(", ")
 		}
