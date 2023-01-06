@@ -14,7 +14,7 @@ const (
 	ValueInvalidErrorType
 )
 
-var berrTypeToStringMap = map[BerrType]string{
+var berrStringMap = map[BerrType]string{
 	UndefinedBerrType:       "undefined",
 	InvalidBerrType:         "invalid",
 	ApplicationErrorType:    "application",
@@ -39,9 +39,9 @@ var berrHTTPCodeMap = map[BerrType]int{
 }
 
 func (e BerrType) String() string {
-	errorTypeStr, found := berrTypeToStringMap[e]
+	errorTypeStr, found := berrStringMap[e]
 	if !found {
-		return berrTypeToStringMap[InvalidBerrType]
+		return berrStringMap[InvalidBerrType]
 	}
 
 	return errorTypeStr

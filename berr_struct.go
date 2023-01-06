@@ -17,16 +17,16 @@ func newBerr(errorType berrconst.BerrType, errorMessage string, details ...D) *b
 
 func newBerrDetailMap(errorType berrconst.BerrType, errorMessage string, errorDetail map[string]any) *berr {
 	return &berr{
-		Type:    errorType.String(),
-		Message: errorMessage,
-		Detail:  errorDetail,
+		BerrType: errorType,
+		Message:  errorMessage,
+		Detail:   errorDetail,
 	}
 }
 
 type berr struct {
-	Type      string         `json:"error_type"`
-	Message   string         `json:"message"`
-	Detail    map[string]any `json:"detail"`
+	BerrType  berrconst.BerrType `json:"error_type"`
+	Message   string             `json:"message"`
+	Detail    map[string]any     `json:"detail"`
 	nextError error
 }
 
@@ -34,7 +34,7 @@ func (e *berr) Error() string {
 	if e.Detail != nil && len(e.Detail) > 0 {
 		return fmt.Sprintf(
 			"%s: %s (%v)",
-			e.Type,
+			e.BerrType,
 			e.Message,
 			e.Detail,
 		)
@@ -42,7 +42,7 @@ func (e *berr) Error() string {
 
 	return fmt.Sprintf(
 		"%s: %s",
-		e.Type,
+		e.BerrType,
 		e.Message,
 	)
 }
@@ -56,8 +56,8 @@ func (e *berr) Unwrap() error {
 // 	return false
 // }
 
-func (e *berr) ErrorType() string {
-	return e.Type
+func (e *berr) ErrorType() berrconst.BerrType {
+	return e.BerrType
 }
 
 func (e *berr) ErrorMessage() string {
@@ -79,7 +79,7 @@ func (e *berr) ErrorDetail() map[string]any {
 
 func (e *berr) Map() map[string]any {
 	return map[string]any{
-		"error_type": e.ErrorType(),
+		"error_type": e.ErrorType().String(),
 		"message":    e.ErrorMessage(),
 		"detail":     e.ErrorDetail(),
 	}
