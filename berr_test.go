@@ -12,11 +12,11 @@ func TestApplicationBerrNoDetails(t *testing.T) {
 	errorMessage := "message"
 	err := berr.Application(errorMessage)
 
-	if err.ErrorType() != berrconst.ApplicationErrorType {
+	if err.ErrorType() != berrconst.ApplicationErrorType.String() {
 		t.Errorf(
 			"unexpected application berr error_type: expected '%s', found '%s'",
 			berrconst.ApplicationErrorType.String(),
-			err.ErrorType().String(),
+			err.ErrorType(),
 		)
 	}
 
