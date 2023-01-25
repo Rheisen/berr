@@ -6,21 +6,29 @@ import (
 	"github.com/rheisen/berr/berrconst"
 )
 
-func newBerr(errorType berrconst.BerrType, errorMessage string, details ...D) *berr {
+func newBerr(errorType berrconst.BerrType, errorMessage string, details ...Detail) *berr {
 	errorDetail := make(map[string]any, len(details))
+	var next error
 	for _, d := range details {
-		errorDetail[d.K] = d.V
+		if d.Type() == "berr_error_detail" && next == nil {
+			next, _ = d.Value().(error)
+		} else if d.Type() == "berr_error_detail" {
+			next = fmt.Errorf("%w: %w", next, d.Value().(error))
+		} else {
+			errorDetail[d.Key()] = d.Value()
+		}
 	}
 
-	return newBerrDetailMap(errorType, errorMessage, errorDetail)
+	return newBerrDetailMap(errorType, errorMessage, errorDetail, next)
 }
 
-func newBerrDetailMap(errorType berrconst.BerrType, errorMessage string, errorDetail map[string]any) *berr {
+func newBerrDetailMap(errorType berrconst.BerrType, errorMessage string, errorDetail map[string]any, next error) *berr {
 	return &berr{
 		Type:       errorType,
 		TypeString: errorType.String(),
 		Message:    errorMessage,
 		Detail:     errorDetail,
+		nextError:  next,
 	}
 }
 
@@ -53,8 +61,11 @@ func (e *berr) Unwrap() error {
 	return e.nextError
 }
 
-// func (e *Berr) Is(target error) bool {
-// 	// TODO: implement
+// func (e *berr) Is(target error) bool {
+// 	if target == e {
+// 		return true
+// 	}
+
 // 	return false
 // }
 

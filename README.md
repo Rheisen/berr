@@ -1,3 +1,21 @@
-# Berr (Better Errors)
+# `berr`: better errors for go
 
-Berr is an opinionated errors package that provides simple functions for creating more descriptive errors.
+`berr` is an errors package that provides simple functions for creating more descriptive errors.
+
+```
+go get github.com/rheisen/berr
+```
+
+## Why `berr`
+
+## Error Types
+
+## Getting Information from `berr.Error`
+
+* `Error.
+* 
+
+## Examples
+
+```go
+```

@@ -8,7 +8,7 @@ import (
 	"github.com/rheisen/berr/berrconst"
 )
 
-func TestApplicationBerrNoDetails(t *testing.T) {
+func TestApplicationErrorNoDetails(t *testing.T) {
 	errorMessage := "message"
 	err := berr.Application(errorMessage)
 
@@ -45,9 +45,9 @@ func TestApplicationBerrNoDetails(t *testing.T) {
 	}
 }
 
-func TestApplicationBerrWithDetails(t *testing.T) {
+func TestApplicationErrorWithDetails(t *testing.T) {
 	errorMessage := "message"
-	errDetailA := berr.D{K: "some", V: 2}
+	errDetailA := berr.D("some", 2)
 
 	err := berr.Application(errorMessage, errDetailA)
 
