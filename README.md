@@ -6,16 +6,26 @@
 go get github.com/rheisen/berr
 ```
 
-## Why `berr`
+### Why `berr`
 
-## Error Types
+### Error Types
 
-## Getting Information from `berr.Error`
+* `berr.ApplicationErrorType`
+* `berr.AuthenticationErrorType`
+* `berr.AuthorizationErrorType`
+* `berr.ValueInvalidErrorType`
+* `berr.ValueMissingErrorType`
+* `berr.NotFoundErrorType`
 
-* `Error.
-* 
+### Getting Information from `berr.Error`
 
-## Examples
+* `Error.Type()`
+* `Error.Message()`
+* `Error.Details()`
+* `Error.Map()`
+* `Error.Unwrap()`
+
+### Examples
 
 ```go
 ```

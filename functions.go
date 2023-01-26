@@ -1,31 +1,27 @@
 package berr
 
-import (
-	"github.com/rheisen/berr/berrconst"
-)
-
 func Application(message string, details ...Detail) Error {
-	return newBerr(berrconst.ApplicationErrorType, message, details...)
+	return newBerr(ApplicationErrorType, message, details...)
 }
 
 func ValueInvalid(message string, details ...Detail) Error {
-	return newBerr(berrconst.ValueInvalidErrorType, message, details...)
+	return newBerr(ValueInvalidErrorType, message, details...)
 }
 
 func ValueMissing(message string, details ...Detail) Error {
-	return newBerr(berrconst.ValueMissingErrorType, message, details...)
+	return newBerr(ValueMissingErrorType, message, details...)
 }
 
 func Authorization(message string, details ...Detail) Error {
-	return newBerr(berrconst.AuthorizationErrorType, message, details...)
+	return newBerr(AuthorizationErrorType, message, details...)
 }
 
 func Authentication(message string, details ...Detail) Error {
-	return newBerr(berrconst.AuthenticationErrorType, message, details...)
+	return newBerr(AuthenticationErrorType, message, details...)
 }
 
 func NotFound(message string, details ...Detail) Error {
-	return newBerr(berrconst.NotFoundErrorType, message, details...)
+	return newBerr(NotFoundErrorType, message, details...)
 }
 
 func D(key string, value any) Detail {

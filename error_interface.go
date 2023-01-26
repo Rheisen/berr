@@ -2,8 +2,6 @@ package berr
 
 import (
 	"strings"
-
-	"github.com/rheisen/berr/berrconst"
 )
 
 type Errors []Error
@@ -30,8 +28,9 @@ func (e Errors) Error() string {
 
 type Error interface {
 	error
-	ErrorType() berrconst.BerrType
-	ErrorMessage() string
-	ErrorDetail() map[string]any
+	Type() ErrorType
+	Message() string
+	Details() map[string]any
+	String() string
 	Map() map[string]any
 }
