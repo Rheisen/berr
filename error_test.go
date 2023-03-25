@@ -113,3 +113,12 @@ func TestApplicationErrorWithDetails(t *testing.T) {
 		)
 	}
 }
+
+func TestApplicationErrorWithErrorDetail(t *testing.T) {
+	errorMessage := "problem creating client"
+
+	err := berr.Application(errorMessage, berr.E(fmt.Errorf("problem pinging host")))
+
+	t.Log(err.String())
+	t.Log(err)
+}

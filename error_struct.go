@@ -43,6 +43,10 @@ func (e *berr) String() string {
 }
 
 func (e *berr) Error() string {
+	if e.nextError != nil {
+		return fmt.Sprintf("%s: %s", e.String(), e.nextError.Error())
+	}
+
 	return e.String()
 }
 

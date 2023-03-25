@@ -33,4 +33,5 @@ type Error interface {
 	Details() map[string]any
 	String() string
 	Map() map[string]any
+	Unwrap() error
 }
