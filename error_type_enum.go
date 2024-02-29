@@ -12,6 +12,8 @@ const (
 	NotFoundErrorType
 	ValueMissingErrorType
 	ValueInvalidErrorType
+	UnimplementedErrorType
+	TimeoutErrorType
 )
 
 var errorTypeStringMap = map[ErrorType]string{
@@ -23,6 +25,8 @@ var errorTypeStringMap = map[ErrorType]string{
 	NotFoundErrorType:       "not_found",
 	ValueInvalidErrorType:   "value_invalid",
 	ValueMissingErrorType:   "value_missing",
+	UnimplementedErrorType:  "unimplemented",
+	TimeoutErrorType:        "timeout",
 }
 
 var errorTypeHTTPCodeMap = map[ErrorType]int{
@@ -34,6 +38,8 @@ var errorTypeHTTPCodeMap = map[ErrorType]int{
 	NotFoundErrorType:       404,
 	ValueInvalidErrorType:   422,
 	ValueMissingErrorType:   422,
+	UnimplementedErrorType:  501,
+	TimeoutErrorType:        504,
 }
 
 func (e ErrorType) String() string {

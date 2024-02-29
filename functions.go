@@ -1,37 +1,61 @@
 package berr
 
-func Application(message string, details ...Detail) Error {
-	return newBerr(ApplicationErrorType, message, details...)
+func New(errorType ErrorType, message string, attachments ...Attachment) Error {
+	return newBerr(errorType, message, attachments...)
 }
 
-func ValueInvalid(message string, details ...Detail) Error {
-	return newBerr(ValueInvalidErrorType, message, details...)
+func Application(message string, attachments ...Attachment) Error {
+	return newBerr(ApplicationErrorType, message, attachments...)
 }
 
-func ValueMissing(message string, details ...Detail) Error {
-	return newBerr(ValueMissingErrorType, message, details...)
+func ValueInvalid(message string, attachments ...Attachment) Error {
+	return newBerr(ValueInvalidErrorType, message, attachments...)
 }
 
-func Authorization(message string, details ...Detail) Error {
-	return newBerr(AuthorizationErrorType, message, details...)
+func ValueMissing(message string, attachments ...Attachment) Error {
+	return newBerr(ValueMissingErrorType, message, attachments...)
 }
 
-func Authentication(message string, details ...Detail) Error {
-	return newBerr(AuthenticationErrorType, message, details...)
+func Authorization(message string, attachments ...Attachment) Error {
+	return newBerr(AuthorizationErrorType, message, attachments...)
 }
 
-func NotFound(message string, details ...Detail) Error {
-	return newBerr(NotFoundErrorType, message, details...)
+func Authentication(message string, attachments ...Attachment) Error {
+	return newBerr(AuthenticationErrorType, message, attachments...)
 }
 
-func New(errType ErrorType, message string, details ...Detail) Error {
-	return newBerr(errType, message, details...)
+func NotFound(message string, attachments ...Attachment) Error {
+	return newBerr(NotFoundErrorType, message, attachments...)
 }
 
-func D(key string, value any) Detail {
+func Unimplemented(message string, attachments ...Attachment) Error {
+	return newBerr(UnimplementedErrorType, message, attachments...)
+}
+
+func Timeout(message string, attachments ...Attachment) Error {
+	return newBerr(TimeoutErrorType, message, attachments...)
+}
+
+func Detail(key string, value any) Attachment {
 	return detail{key: key, value: value}
 }
 
-func E(value error) Detail {
+func D(key string, value any) Attachment {
+	return Detail(key, value)
+}
+
+func Metadata(key string, value any) Attachment {
+	return metadataDetail{key: key, value: value}
+}
+
+func M(key string, value any) Attachment {
+	return Metadata(key, value)
+}
+
+func Err(value error) Attachment {
 	return errorDetail{key: "error", value: value}
+}
+
+func E(value error) Attachment {
+	return Err(value)
 }

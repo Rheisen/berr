@@ -29,9 +29,12 @@ func (e Errors) Error() string {
 type Error interface {
 	error
 	Type() ErrorType
+	HTTPCode() int
 	Message() string
 	Details() map[string]any
+	Metadata() map[string]any
 	String() string
 	Map() map[string]any
+	FullMap() map[string]any
 	Unwrap() error
 }

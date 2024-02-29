@@ -16,3 +16,7 @@ func (d detail) Value() any {
 func (d detail) Type() string {
 	return "berr_detail"
 }
+
+func (d detail) Sensitive() bool {
+	return false
+}

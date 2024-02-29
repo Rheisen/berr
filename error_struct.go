@@ -4,28 +4,36 @@ import (
 	"fmt"
 )
 
-func newBerr(errorType ErrorType, errorMessage string, details ...Detail) *berr {
-	errorDetail := make(map[string]any, len(details))
+func newBerr(errorType ErrorType, errorMessage string, attachments ...Attachment) *berr {
+	errorDetail := make(map[string]any)
+	errorMetadata := make(map[string]any)
+
 	var next error
-	for _, d := range details {
+
+	for _, d := range attachments {
 		if d.Type() == "berr_error_detail" && next == nil {
 			next, _ = d.Value().(error)
 		} else if d.Type() == "berr_error_detail" {
 			next = fmt.Errorf("%s: %w", next, d.Value().(error))
+		} else if d.Type() == "berr_metadata_detail" {
+			errorMetadata[d.Key()] = d.Value()
 		} else {
 			errorDetail[d.Key()] = d.Value()
 		}
 	}
 
-	return newBerrDetailMap(errorType, errorMessage, errorDetail, next)
+	return newBerrWithAttachments(errorType, errorMessage, errorDetail, errorMetadata, next)
 }
 
-func newBerrDetailMap(errorType ErrorType, errorMessage string, errorDetail map[string]any, next error) *berr {
+func newBerrWithAttachments(
+	errorType ErrorType, errorMessage string, errorDetail, errorMetadata map[string]any, next error,
+) *berr {
 	return &berr{
 		ErrType:       errorType,
 		ErrTypeString: errorType.String(),
 		ErrMessage:    errorMessage,
 		ErrDetails:    errorDetail,
+		ErrMetadata:   errorMetadata,
 		nextError:     next,
 	}
 }
@@ -35,6 +43,7 @@ type berr struct {
 	ErrTypeString string         `json:"error_type"`
 	ErrMessage    string         `json:"message"`
 	ErrDetails    map[string]any `json:"details"`
+	ErrMetadata   map[string]any `json:"-"`
 	nextError     error
 }
 
@@ -54,16 +63,12 @@ func (e *berr) Unwrap() error {
 	return e.nextError
 }
 
-// func (e *berr) Is(target error) bool {
-// 	if target == e {
-// 		return true
-// 	}
-
-// 	return false
-// }
-
 func (e *berr) Type() ErrorType {
 	return e.ErrType
+}
+
+func (e *berr) HTTPCode() int {
+	return e.ErrType.HTTPCode()
 }
 
 func (e *berr) Message() string {
@@ -83,10 +88,32 @@ func (e *berr) Details() map[string]any {
 	return nil
 }
 
+func (e *berr) Metadata() map[string]any {
+	if e.ErrMetadata != nil && len(e.ErrMetadata) > 0 {
+		metadataCopy := make(map[string]any)
+		for k, v := range e.ErrMetadata {
+			metadataCopy[k] = v
+		}
+
+		return metadataCopy
+	}
+
+	return nil
+}
+
 func (e *berr) Map() map[string]any {
 	return map[string]any{
 		"error_type": e.Type().String(),
 		"message":    e.Message(),
 		"details":    e.Details(),
+	}
+}
+
+func (e *berr) FullMap() map[string]any {
+	return map[string]any{
+		"error_type": e.Type().String(),
+		"message":    e.Message(),
+		"details":    e.Details(),
+		"metadata":   e.Metadata(),
 	}
 }

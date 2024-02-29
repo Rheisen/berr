@@ -16,3 +16,7 @@ func (d errorDetail) Value() any {
 func (d errorDetail) Type() string {
 	return "berr_error_detail"
 }
+
+func (d errorDetail) Sensitive() bool {
+	return true
+}
