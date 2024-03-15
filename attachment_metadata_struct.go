@@ -1,22 +1,24 @@
 package berr
 
-type metadataDetail struct {
+const AttachmentMetadataType = "metadata"
+
+type metadataAttachment struct {
 	key   string
 	value any
 }
 
-func (d metadataDetail) Key() string {
+func (d metadataAttachment) Key() string {
 	return d.key
 }
 
-func (d metadataDetail) Value() any {
+func (d metadataAttachment) Value() any {
 	return d.value
 }
 
-func (d metadataDetail) Type() string {
+func (d metadataAttachment) Type() string {
 	return "berr_metadata_detail"
 }
 
-func (d metadataDetail) Sensitive() bool {
+func (d metadataAttachment) Sensitive() bool {
 	return true
 }

@@ -1,22 +1,24 @@
 package berr
 
-type detail struct {
+const AttachmentDetailType = "detail"
+
+type detailAttachment struct {
 	key   string
 	value any
 }
 
-func (d detail) Key() string {
+func (d detailAttachment) Key() string {
 	return d.key
 }
 
-func (d detail) Value() any {
+func (d detailAttachment) Value() any {
 	return d.value
 }
 
-func (d detail) Type() string {
-	return "berr_detail"
+func (d detailAttachment) Type() string {
+	return AttachmentDetailType
 }
 
-func (d detail) Sensitive() bool {
+func (d detailAttachment) Sensitive() bool {
 	return false
 }

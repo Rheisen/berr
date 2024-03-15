@@ -1,22 +1,24 @@
 package berr
 
-type errorDetail struct {
+const AttachmentErrorType = "error"
+
+type errorAttachment struct {
 	key   string
 	value error
 }
 
-func (d errorDetail) Key() string {
+func (d errorAttachment) Key() string {
 	return d.key
 }
 
-func (d errorDetail) Value() any {
+func (d errorAttachment) Value() any {
 	return d.value
 }
 
-func (d errorDetail) Type() string {
-	return "berr_error_detail"
+func (d errorAttachment) Type() string {
+	return AttachmentErrorType
 }
 
-func (d errorDetail) Sensitive() bool {
+func (d errorAttachment) Sensitive() bool {
 	return true
 }
