@@ -1,5 +1,11 @@
 package berr
 
+func FromError(err error) (Error, bool) {
+	berrError, okay := err.(Error)
+
+	return berrError, okay
+}
+
 func New(errorType ErrorType, message string, attachments ...Attachment) Error {
 	return newBerr(errorType, message, attachments...)
 }

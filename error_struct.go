@@ -48,7 +48,7 @@ type berr struct {
 }
 
 func (e *berr) String() string {
-	return fmt.Sprintf("[%s error] %s", e.ErrTypeString, e.ErrMessage)
+	return fmt.Sprintf("[%s_error] %s", e.ErrTypeString, e.ErrMessage)
 }
 
 func (e *berr) Error() string {

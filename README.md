@@ -1,5 +1,12 @@
 # `berr`: better errors for go
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![GoDoc](https://godoc.org/github.com/rheisen/berr?status.svg)](https://pkg.go.dev/github.com/rheisen/berr)
+[![Go Report Card](https://goreportcard.com/badge/github.com/rheisen/berr)](https://goreportcard.com/report/github.com/rheisen/berr)
+[![Build Status](https://github.com/rheisen/berr/actions/workflows/golang-test.yml/badge.svg?branch=main)](https://github.com/rheisen/berr/actions/workflows/golang-test.yml)
+[![codecov.io](https://codecov.io/github/rheisen/berr/coverage.svg?branch=main)](https://codecov.io/github/rheisen/berr?branch=main)
+
+
 `berr` is an errors package that provides simple functions for creating more descriptive errors.
 
 ```
@@ -18,10 +25,11 @@ for creating really powerful errors.
 1. Errors need to serve the needs of different audiences, audiences with often conflicting interests (E.g. developers
 vs. end-users of APIs and Applications). When creating a `berr.Error`, provide a message that is safe and valuable to
 end-users, and add `berr.Attachment` structures to provide additional context relevant for those different audiences.
-By default, berr provides `detail`, `metadata`, and `error` attachments. The `detail` attachment is not sensitive, and
-intended for end-users, while `metadata` and `error` attachments are sensitive (intended for developers).
+Berr provides `detail`, `metadata`, and `error` attachments. The `detail` attachment is not sensitive, and intended for
+providing additional context to end-users, while `metadata` and `error` attachments are sensitive (e.g. intended for
+developers / debugging).
 
-2. Errors should be sensitive by default, and not reveal or leak sensitive information / sensitive attachments without
+2. Errors should be sensitive by default, and not reveal or leak sensitive information (sensitive attachments) without
 an explicit call to do so. `berr.Error.String()` will output the error type and the message it was initially suplied
 with, while `berr.Error.Error()` will output the `berr.Error.String()` in addition to the output of `.Error()` on the
 next error (if one exists). A JSON rendering of a `berr.Error` model will only expose the message, error type, and
@@ -63,8 +71,3 @@ the `berr.Error` interface with the `.Metadata()` method, and will also be outpu
 * `Error.Map() map[string]any`
 * `Error.FullMap() map[string]any`
 * `Error.Unwrap()`
-
-### Examples
-
-```go
-```

@@ -1,0 +1,26 @@
+name: go tests
+
+on: [push, pull_request]
+
+jobs:
+  gotest:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        go: [1.19]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: go setup
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go }}
+      - name: build
+        run: go build -v ./...
+      - name: test
+        run: go test -race -coverprofile coverage.txt -covermode atomic
+      - name: upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: coverage.txt
