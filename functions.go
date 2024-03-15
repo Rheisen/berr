@@ -11,35 +11,35 @@ func New(errorType ErrorType, message string, attachments ...Attachment) Error {
 }
 
 func Application(message string, attachments ...Attachment) Error {
-	return newBerr(ApplicationErrorType, message, attachments...)
+	return New(ApplicationErrorType, message, attachments...)
 }
 
 func ValueInvalid(message string, attachments ...Attachment) Error {
-	return newBerr(ValueInvalidErrorType, message, attachments...)
+	return New(ValueInvalidErrorType, message, attachments...)
 }
 
 func ValueMissing(message string, attachments ...Attachment) Error {
-	return newBerr(ValueMissingErrorType, message, attachments...)
+	return New(ValueMissingErrorType, message, attachments...)
 }
 
 func Authorization(message string, attachments ...Attachment) Error {
-	return newBerr(AuthorizationErrorType, message, attachments...)
+	return New(AuthorizationErrorType, message, attachments...)
 }
 
 func Authentication(message string, attachments ...Attachment) Error {
-	return newBerr(AuthenticationErrorType, message, attachments...)
+	return New(AuthenticationErrorType, message, attachments...)
 }
 
 func NotFound(message string, attachments ...Attachment) Error {
-	return newBerr(NotFoundErrorType, message, attachments...)
+	return New(NotFoundErrorType, message, attachments...)
 }
 
 func Unimplemented(message string, attachments ...Attachment) Error {
-	return newBerr(UnimplementedErrorType, message, attachments...)
+	return New(UnimplementedErrorType, message, attachments...)
 }
 
 func Timeout(message string, attachments ...Attachment) Error {
-	return newBerr(TimeoutErrorType, message, attachments...)
+	return New(TimeoutErrorType, message, attachments...)
 }
 
 func Detail(key string, value any) Attachment {

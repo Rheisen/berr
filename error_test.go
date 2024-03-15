@@ -164,78 +164,54 @@ func TestErrorStructThroughInterface(t *testing.T) {
 	}
 }
 
-// func TestValueInvalidError(t *testing.T) {
-// }
+func TestValueInvalidError(t *testing.T) {
+	testErrorFunc(t, berr.ValueInvalidErrorType, berr.ValueInvalid, "invalid email format")
+}
 
-// func TestValueMissingError(t *testing.T) {
-// }
+func TestValueMissingError(t *testing.T) {
+	testErrorFunc(t, berr.ValueMissingErrorType, berr.ValueMissing, "email cannot be empty")
+}
 
-// func TestNotFoundError(t *testing.T) {
-// }
+func TestNotFoundError(t *testing.T) {
+	testErrorFunc(t, berr.NotFoundErrorType, berr.NotFound, "resource not found")
+}
 
-// func TestAuthorizationError(t *testing.T) {
-// }
+func TestAuthorizationError(t *testing.T) {
+	testErrorFunc(t, berr.AuthorizationErrorType, berr.Authorization, "action not authorized")
+}
 
-// func TestAuthenticationError(t *testing.T) {
-// }
+func TestAuthenticationError(t *testing.T) {
+	testErrorFunc(t, berr.AuthenticationErrorType, berr.Authentication, "missing authentication token")
+}
 
-// func TestApplicationErrorNoDetails(t *testing.T) {
-// 	errorMessage := "message"
-// 	err := berr.Application(errorMessage)
+func TestUnimplementedError(t *testing.T) {
+	testErrorFunc(t, berr.UnimplementedErrorType, berr.Unimplemented, "method not implemented")
+}
 
-// 	if err.Type() != berr.ApplicationErrorType {
-// 		t.Errorf(
-// 			"unexpected application berr error_type: expected '%s', found '%s'",
-// 			berr.ApplicationErrorType.String(),
-// 			err.Type().String(),
-// 		)
-// 	}
+func TestTimeoutError(t *testing.T) {
+	testErrorFunc(t, berr.TimeoutErrorType, berr.Timeout, "request cancelled")
+}
 
-// 	if err.Message() != errorMessage {
-// 		t.Errorf(
-// 			"unexpected application berr error_message: expected '%s', found '%s'",
-// 			errorMessage,
-// 			err.Message(),
-// 		)
-// 	}
+func testErrorFunc(
+	t *testing.T,
+	errorType berr.ErrorType,
+	errorFunc func(message string, attachments ...berr.Attachment) berr.Error,
+	errorMessage string,
+) {
+	expectErrorType := errorType
 
-// 	expectedError := fmt.Sprintf("[%s error] %s", berr.ApplicationErrorType.String(), errorMessage)
-// 	if err.Error() != expectedError {
-// 		t.Errorf(
-// 			"unexpected application berr error: expected '%s', found '%s'",
-// 			expectedError,
-// 			err.Error(),
-// 		)
-// 	}
+	const detailAttachKey = "detail_key"
+	const detailAttachValue = "detail_val"
 
-// 	if err.Details() != nil {
-// 		t.Errorf(
-// 			"unexpected application berr error_detail: expected nil, found '%v'",
-// 			err.Details(),
-// 		)
-// 	}
-// }
+	detailAttachment := berr.D(detailAttachKey, detailAttachValue)
 
-// func TestApplicationErrorWithDetails(t *testing.T) {
-// 	errorMessage := "message"
-// 	errDetailA := berr.D("some", 2)
+	err := errorFunc(errorMessage, detailAttachment)
 
-// 	err := berr.Application(errorMessage, errDetailA)
+	if err == nil {
+		t.Fatalf("unexpected nil berr.Error\n")
+	}
 
-// 	if err.Message() != errorMessage {
-// 		t.Errorf(
-// 			"unexpected application berr error_message: expected '%s', found '%s'",
-// 			errorMessage,
-// 			err.Message(),
-// 		)
-// 	}
-// }
-
-// func TestApplicationErrorWithErrorDetail(t *testing.T) {
-// 	errorMessage := "problem creating client"
-
-// 	err := berr.Application(errorMessage, berr.E(fmt.Errorf("problem pinging host")))
-
-// 	t.Log(err.String())
-// 	t.Log(err)
-// }
+	if err.Type() != expectErrorType {
+		t.Errorf("unexpected error type (expected '%s') found: %s\n", expectErrorType, err.Type())
+	}
+}
