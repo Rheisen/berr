@@ -43,7 +43,7 @@ func Timeout(message string, attachments ...Attachment) Error {
 }
 
 func Detail(key string, value any) Attachment {
-	return detail{key: key, value: value}
+	return detailAttachment{key: key, value: value}
 }
 
 func D(key string, value any) Attachment {
@@ -51,7 +51,7 @@ func D(key string, value any) Attachment {
 }
 
 func Metadata(key string, value any) Attachment {
-	return metadataDetail{key: key, value: value}
+	return metadataAttachment{key: key, value: value}
 }
 
 func M(key string, value any) Attachment {
@@ -59,7 +59,7 @@ func M(key string, value any) Attachment {
 }
 
 func Err(value error) Attachment {
-	return errorDetail{key: "error", value: value}
+	return errorAttachment{key: "error", value: value}
 }
 
 func E(value error) Attachment {

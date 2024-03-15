@@ -11,9 +11,9 @@ func newBerr(errorType ErrorType, errorMessage string, attachments ...Attachment
 	var next error
 
 	for _, d := range attachments {
-		if d.Type() == "berr_error_detail" && next == nil {
+		if d.Type() == AttachmentErrorType && next == nil {
 			next, _ = d.Value().(error)
-		} else if d.Type() == "berr_error_detail" {
+		} else if d.Type() == AttachmentErrorType {
 			next = fmt.Errorf("%s: %w", next, d.Value().(error))
 		} else if d.Type() == "berr_metadata_detail" {
 			errorMetadata[d.Key()] = d.Value()
