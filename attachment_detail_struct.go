@@ -3,8 +3,8 @@ package berr
 const AttachmentDetailType = "detail"
 
 type detailAttachment struct {
-	key   string
 	value any
+	key   string
 }
 
 func (d detailAttachment) Key() string {

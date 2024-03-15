@@ -11,13 +11,14 @@ func newBerr(errorType ErrorType, errorMessage string, attachments ...Attachment
 	var next error
 
 	for _, d := range attachments {
-		if d.Type() == AttachmentErrorType && next == nil {
+		switch {
+		case d.Type() == AttachmentErrorType && next == nil:
 			next, _ = d.Value().(error)
-		} else if d.Type() == AttachmentErrorType {
+		case d.Type() == AttachmentErrorType:
 			next = fmt.Errorf("%s: %w", next, d.Value().(error))
-		} else if d.Type() == "berr_metadata_detail" {
+		case d.Type() == AttachmentMetadataType:
 			errorMetadata[d.Key()] = d.Value()
-		} else {
+		default:
 			errorDetail[d.Key()] = d.Value()
 		}
 	}
@@ -39,12 +40,12 @@ func newBerrWithAttachments(
 }
 
 type berr struct {
-	ErrType       ErrorType      `json:"-"`
-	ErrTypeString string         `json:"error_type"`
-	ErrMessage    string         `json:"message"`
 	ErrDetails    map[string]any `json:"details"`
 	ErrMetadata   map[string]any `json:"-"`
 	nextError     error
+	ErrTypeString string    `json:"error_type"`
+	ErrMessage    string    `json:"message"`
+	ErrType       ErrorType `json:"-"`
 }
 
 func (e *berr) String() string {

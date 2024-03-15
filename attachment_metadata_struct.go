@@ -3,8 +3,8 @@ package berr
 const AttachmentMetadataType = "metadata"
 
 type metadataAttachment struct {
-	key   string
 	value any
+	key   string
 }
 
 func (d metadataAttachment) Key() string {
@@ -16,7 +16,7 @@ func (d metadataAttachment) Value() any {
 }
 
 func (d metadataAttachment) Type() string {
-	return "berr_metadata_detail"
+	return AttachmentMetadataType
 }
 
 func (d metadataAttachment) Sensitive() bool {

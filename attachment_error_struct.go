@@ -3,8 +3,8 @@ package berr
 const AttachmentErrorType = "error"
 
 type errorAttachment struct {
-	key   string
 	value error
+	key   string
 }
 
 func (d errorAttachment) Key() string {

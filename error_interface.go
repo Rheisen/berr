@@ -18,6 +18,7 @@ func (e Errors) Error() string {
 		if idx > 0 {
 			builder.WriteString(", ")
 		}
+
 		builder.WriteString(val.Error())
 	}
 

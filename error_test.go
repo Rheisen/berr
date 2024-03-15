@@ -9,12 +9,15 @@ import (
 
 func TestErrorStructThroughInterface(t *testing.T) {
 	const errorMessage = "unexpected problem unmarshalling struct"
+
 	const nestedErrorMessage = "invalid struct tag"
 
 	const metadataAttachKey = "metadata_key"
+
 	const metadataAttachValue = "metadata_val"
 
 	const detailAttachKey = "detail_key"
+
 	const detailAttachValue = "detail_val"
 
 	metadataAttachment := berr.M(metadataAttachKey, metadataAttachValue)
@@ -198,9 +201,12 @@ func testErrorFunc(
 	errorFunc func(message string, attachments ...berr.Attachment) berr.Error,
 	errorMessage string,
 ) {
+	t.Helper()
+
 	expectErrorType := errorType
 
 	const detailAttachKey = "detail_key"
+
 	const detailAttachValue = "detail_val"
 
 	detailAttachment := berr.D(detailAttachKey, detailAttachValue)
