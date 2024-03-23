@@ -18,6 +18,8 @@ func newBerr(errorType ErrorType, errorMessage string, attachments ...Attachment
 			next = fmt.Errorf("%s: %w", next, d.Value().(error))
 		case d.Type() == AttachmentMetadataType:
 			errorMetadata[d.Key()] = d.Value()
+		case d.Sensitive() == true:
+			errorMetadata[d.Key()] = d.Value()
 		default:
 			errorDetail[d.Key()] = d.Value()
 		}

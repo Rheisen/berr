@@ -195,6 +195,35 @@ func TestTimeoutError(t *testing.T) {
 	testErrorFunc(t, berr.TimeoutErrorType, berr.Timeout, "request cancelled")
 }
 
+func TestErrorsFormatting(t *testing.T) {
+	const unimplementedErrorMessage = "store.GetData method not implemented"
+
+	const applicationErrorMessage = "unexpected problem querying database"
+
+	errs := berr.Errors{
+		berr.Unimplemented(unimplementedErrorMessage),
+		berr.Application(applicationErrorMessage),
+	}
+
+	errorString := errs.Error()
+
+	if !strings.Contains(errorString, unimplementedErrorMessage) {
+		t.Errorf("expected error string to contain '%s', found: %s\n", unimplementedErrorMessage, errorString)
+	}
+
+	if !strings.Contains(errorString, applicationErrorMessage) {
+		t.Errorf("expected error string to contain '%s', found: %s\n", applicationErrorMessage, errorString)
+	}
+
+	if !strings.HasPrefix(errorString, "[") {
+		t.Errorf("expected error string to start with '['\n")
+	}
+
+	if !strings.HasSuffix(errorString, "]") {
+		t.Errorf("expected error string to start with ']'\n")
+	}
+}
+
 func testErrorFunc(
 	t *testing.T,
 	errorType berr.ErrorType,
