@@ -40,15 +40,15 @@ the `berr.Error` interface with the `.Metadata()` method, and will also be outpu
 
 ### Creating `berr.Error` Models
 
-* `berr.New(errorType berr.ErrorType, message string, details ...berr.Detail) berr.Error`
-* `berr.Application(message string, details ...berr.Detail) berr.Error`
-* `berr.Authentication(message string, details ...berr.Detail) berr.Error`
-* `berr.Authorization(message string, details ...berr.Detail) berr.Error`
-* `berr.NotFound(message string, details ...berr.Detail) berr.Error`
-* `berr.ValueInvalid(message string, details ...berr.Detail) berr.Error`
-* `berr.ValueMissing(message string, details ...berr.Detail) berr.Error`
-* `berr.Unimplemented(message string, details ...berr.Detail) berr.Error`
-* `berr.Timeout(message string, details ...berr.Detail) berr.Error`
+* `berr.New(errorType berr.ErrorType, message string, details ...berr.Attachment) berr.Error`
+* `berr.Application(message string, details ...berr.Attachment) berr.Error`
+* `berr.Authentication(message string, details ...berr.Attachment) berr.Error`
+* `berr.Authorization(message string, details ...berr.Attachment) berr.Error`
+* `berr.NotFound(message string, details ...berr.Attachment) berr.Error`
+* `berr.ValueInvalid(message string, details ...berr.Attachment) berr.Error`
+* `berr.ValueMissing(message string, details ...berr.Attachment) berr.Error`
+* `berr.Unimplemented(message string, details ...berr.Attachment) berr.Error`
+* `berr.Timeout(message string, details ...berr.Attachment) berr.Error`
 
 ### Error Types
 
