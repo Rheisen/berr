@@ -10,6 +10,7 @@ const (
 	AuthenticationErrorType
 	AuthorizationErrorType
 	NotFoundErrorType
+	ConflictErrorType
 	ValueMissingErrorType
 	ValueInvalidErrorType
 	UnimplementedErrorType
@@ -23,6 +24,7 @@ var errorTypeStringMap = map[ErrorType]string{
 	AuthenticationErrorType: "authentication",
 	AuthorizationErrorType:  "authorization",
 	NotFoundErrorType:       "not_found",
+	ConflictErrorType:       "conflict",
 	ValueInvalidErrorType:   "value_invalid",
 	ValueMissingErrorType:   "value_missing",
 	UnimplementedErrorType:  "unimplemented",
@@ -36,6 +38,7 @@ var errorTypeHTTPCodeMap = map[ErrorType]int{
 	AuthenticationErrorType: 401,
 	AuthorizationErrorType:  403,
 	NotFoundErrorType:       404,
+	ConflictErrorType:       409,
 	ValueInvalidErrorType:   422,
 	ValueMissingErrorType:   422,
 	UnimplementedErrorType:  501,

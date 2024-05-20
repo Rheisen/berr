@@ -2,9 +2,10 @@ package berr
 
 import (
 	"fmt"
+	"strings"
 )
 
-func newBerr(errorType ErrorType, errorMessage string, attachments ...Attachment) *berr {
+func newBerr(errorType ErrorType, errorMessage string, attachments ...*Attachment) *Error {
 	errorDetail := make(map[string]any)
 	errorMetadata := make(map[string]any)
 
@@ -30,8 +31,8 @@ func newBerr(errorType ErrorType, errorMessage string, attachments ...Attachment
 
 func newBerrWithAttachments(
 	errorType ErrorType, errorMessage string, errorDetail, errorMetadata map[string]any, next error,
-) *berr {
-	return &berr{
+) *Error {
+	return &Error{
 		ErrType:       errorType,
 		ErrTypeString: errorType.String(),
 		ErrMessage:    errorMessage,
@@ -41,7 +42,30 @@ func newBerrWithAttachments(
 	}
 }
 
-type berr struct {
+type Errors []*Error
+
+func (e Errors) Error() string {
+	if e == nil {
+		return ""
+	}
+
+	builder := strings.Builder{}
+	builder.WriteString("[")
+
+	for idx, val := range e {
+		if idx > 0 {
+			builder.WriteString(", ")
+		}
+
+		builder.WriteString(val.Error())
+	}
+
+	builder.WriteString("]")
+
+	return builder.String()
+}
+
+type Error struct {
 	ErrDetails    map[string]any `json:"details"`
 	ErrMetadata   map[string]any `json:"-"`
 	nextError     error
@@ -50,11 +74,11 @@ type berr struct {
 	ErrType       ErrorType `json:"-"`
 }
 
-func (e *berr) String() string {
+func (e Error) String() string {
 	return fmt.Sprintf("[%s_error] %s", e.ErrTypeString, e.ErrMessage)
 }
 
-func (e *berr) Error() string {
+func (e Error) Error() string {
 	if e.nextError != nil {
 		return fmt.Sprintf("%s: %s", e.String(), e.nextError.Error())
 	}
@@ -62,23 +86,23 @@ func (e *berr) Error() string {
 	return e.String()
 }
 
-func (e *berr) Unwrap() error {
+func (e Error) Unwrap() error {
 	return e.nextError
 }
 
-func (e *berr) Type() ErrorType {
+func (e Error) Type() ErrorType {
 	return e.ErrType
 }
 
-func (e *berr) HTTPCode() int {
+func (e Error) HTTPCode() int {
 	return e.ErrType.HTTPCode()
 }
 
-func (e *berr) Message() string {
+func (e Error) Message() string {
 	return e.ErrMessage
 }
 
-func (e *berr) Details() map[string]any {
+func (e Error) Details() map[string]any {
 	if e.ErrDetails != nil && len(e.ErrDetails) > 0 {
 		detailCopy := make(map[string]any)
 		for k, v := range e.ErrDetails {
@@ -91,7 +115,7 @@ func (e *berr) Details() map[string]any {
 	return nil
 }
 
-func (e *berr) Metadata() map[string]any {
+func (e Error) Metadata() map[string]any {
 	if e.ErrMetadata != nil && len(e.ErrMetadata) > 0 {
 		metadataCopy := make(map[string]any)
 		for k, v := range e.ErrMetadata {
@@ -104,7 +128,7 @@ func (e *berr) Metadata() map[string]any {
 	return nil
 }
 
-func (e *berr) Map() map[string]any {
+func (e Error) Map() map[string]any {
 	return map[string]any{
 		"error_type": e.Type().String(),
 		"message":    e.Message(),
@@ -112,7 +136,7 @@ func (e *berr) Map() map[string]any {
 	}
 }
 
-func (e *berr) FullMap() map[string]any {
+func (e Error) FullMap() map[string]any {
 	return map[string]any{
 		"error_type": e.Type().String(),
 		"message":    e.Message(),

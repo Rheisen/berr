@@ -26,7 +26,7 @@ func TestErrorStructThroughInterface(t *testing.T) {
 
 	err := berr.Application(errorMessage, metadataAttachment, detailAttachment, errorAttachment)
 	if err == nil {
-		t.Fatalf("unexpected nil berr.Error\n")
+		t.Errorf("unexpected nil error\n")
 	}
 
 	// -- Test err.Message() value --
@@ -179,6 +179,10 @@ func TestNotFoundError(t *testing.T) {
 	testErrorFunc(t, berr.NotFoundErrorType, berr.NotFound, "resource not found")
 }
 
+func TestConflictError(t *testing.T) {
+	testErrorFunc(t, berr.ConflictErrorType, berr.Conflict, "resource conflict detected")
+}
+
 func TestAuthorizationError(t *testing.T) {
 	testErrorFunc(t, berr.AuthorizationErrorType, berr.Authorization, "action not authorized")
 }
@@ -227,7 +231,7 @@ func TestErrorsFormatting(t *testing.T) {
 func testErrorFunc(
 	t *testing.T,
 	errorType berr.ErrorType,
-	errorFunc func(message string, attachments ...berr.Attachment) berr.Error,
+	errorFunc func(message string, attachments ...*berr.Attachment) *berr.Error,
 	errorMessage string,
 ) {
 	t.Helper()
@@ -241,10 +245,6 @@ func testErrorFunc(
 	detailAttachment := berr.D(detailAttachKey, detailAttachValue)
 
 	err := errorFunc(errorMessage, detailAttachment)
-
-	if err == nil {
-		t.Fatalf("unexpected nil berr.Error\n")
-	}
 
 	if err.Type() != expectErrorType {
 		t.Errorf("unexpected error type (expected '%s') found: %s\n", expectErrorType, err.Type())

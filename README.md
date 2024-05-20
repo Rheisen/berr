@@ -36,7 +36,7 @@ next error (if one exists). A JSON rendering of a `berr.Error` model will only e
 attachments that are not sensitive (e.g. `detail` attachments).
 
 3. Additional error information should be readily available. If you would like to access metadata, it is available on
-the `berr.Error` interface with the `.Metadata()` method, and will also be output with the `.FullMap()` method.
+the `berr.Error` struct with the `.Metadata()` method, and will also be output with the `.FullMap()` method.
 
 ### Creating `berr.Error` Models
 
